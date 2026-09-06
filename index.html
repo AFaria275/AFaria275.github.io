@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>António Faria — Finance, Strategy & Data</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #FBFAF8;
+    --bg-alt: #F2F0EB;
+    --ink: #171A1C;
+    --ink-soft: #5B6167;
+    --line: #E1DED6;
+    --accent: #0F7A66;
+    --accent-deep: #0B5C4E;
+    --accent-tint: #E4F1EE;
+    --card: #FFFFFF;
+    --max: 1120px;
+  }
+
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+
+  body{
+    margin:0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,h2,h3{
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    color: var(--ink);
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+
+  a{ color: inherit; text-decoration: none; }
+
+  ::selection{ background: var(--accent-tint); color: var(--accent-deep); }
+
+  /* ---------- layout shell ---------- */
+
+  .shell{
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    max-width: var(--max);
+    margin: 0 auto;
+  }
+
+  nav.rail{
+    position: sticky;
+    top: 0;
+    align-self: start;
+    height: 100vh;
+    padding: 48px 16px 48px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .rail-top .mark{
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 22px;
+  }
+  .rail-top .role{
+    margin-top: 6px;
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.4;
+  }
+
+  .rail-links{ margin-top: 56px; display:flex; flex-direction:column; gap: 14px;}
+  .rail-links a{
+    font-size: 14px;
+    color: var(--ink-soft);
+    position: relative;
+    width: fit-content;
+    padding-left: 18px;
+  }
+  .rail-links a::before{
+    content:"";
+    position:absolute;
+    left:0; top:50%;
+    width: 8px; height: 1px;
+    background: var(--ink-soft);
+    transform: translateY(-50%);
+    transition: width .2s ease, background .2s ease;
+  }
+  .rail-links a:hover, .rail-links a.active{ color: var(--ink); }
+  .rail-links a:hover::before, .rail-links a.active::before{ width: 14px; background: var(--accent); }
+
+  .rail-bottom{ font-size: 13px; color: var(--ink-soft); display:flex; flex-direction:column; gap:8px;}
+  .rail-bottom a:hover{ color: var(--accent); }
+
+  main{ padding: 48px 0 120px 56px; border-left: 1px solid var(--line); }
+
+  section{ padding: 96px 0; border-bottom: 1px solid var(--line); }
+  section:last-of-type{ border-bottom: none; }
+
+  .eyebrow{
+    font-size: 13px;
+    color: var(--accent-deep);
+    margin-bottom: 18px;
+    font-weight: 500;
+  }
+
+  /* ---------- hero ---------- */
+
+  #hero{ padding-top: 12px; }
+
+  .hero-grid{
+    display: grid;
+    grid-template-columns: 1.4fr 0.9fr;
+    gap: 48px;
+    align-items: start;
+  }
+
+  .hero-name{
+    font-size: clamp(40px, 5.5vw, 64px);
+    line-height: 1.02;
+  }
+
+  .hero-tagline{
+    margin-top: 22px;
+    font-size: 19px;
+    color: var(--ink-soft);
+    max-width: 46ch;
+  }
+
+  .hero-tagline strong{ color: var(--ink); font-weight: 600;}
+
+  .hero-cta{ margin-top: 32px; display:flex; gap: 14px; flex-wrap: wrap; }
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    padding: 12px 20px;
+    border-radius: 3px;
+    font-size: 14px;
+    font-weight: 600;
+    border: 1px solid var(--ink);
+    transition: background .15s ease, color .15s ease, border-color .15s ease;
+  }
+  .btn.primary{ background: var(--ink); color: #fff; }
+  .btn.primary:hover{ background: var(--accent-deep); border-color: var(--accent-deep); }
+  .btn.ghost{ border-color: var(--line); color: var(--ink-soft); }
+  .btn.ghost:hover{ border-color: var(--ink); color: var(--ink); }
+
+  .hero-photo{
+    aspect-ratio: 4/5;
+    background: var(--bg-alt);
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+    display:flex; align-items:flex-end;
+  }
+  .hero-photo img{ width:100%; height:100%; object-fit: cover; display:block; }
+  .hero-photo .tag{
+    position:absolute; bottom:16px; left:16px;
+    background: rgba(23,26,28,.85);
+    color:#fff; font-size:12px; padding:6px 10px; border-radius: 3px;
+    font-family:'IBM Plex Mono', monospace;
+  }
+
+  .hero-stats{
+    margin-top: 56px;
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+    border-top: 1px solid var(--line);
+    padding-top: 28px;
+  }
+  .stat-num{ font-family:'Fraunces', serif; font-size: 30px; color: var(--accent-deep); }
+  .stat-label{ font-size: 13px; color: var(--ink-soft); margin-top: 4px; }
+
+  /* ---------- about ---------- */
+
+  .about-layout{ display:grid; grid-template-columns: 1fr 1fr; gap: 56px; }
+  .about-text p{ font-size: 16px; color: var(--ink-soft); max-width: 56ch; }
+  .about-text p + p{ margin-top: 14px; }
+
+  .other-activities{
+    margin-top: 28px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+  }
+  .other-activities h4{
+    font-family:'Inter'; font-size:13px; font-weight:600; text-transform: none;
+    color: var(--ink); margin-bottom:10px;
+  }
+  .other-activities ul{ margin:0; padding-left: 18px; color: var(--ink-soft); font-size: 14.5px; }
+  .other-activities li + li{ margin-top: 6px; }
+
+  .skills-box{ background: var(--card); border: 1px solid var(--line); border-radius: 6px; padding: 28px; }
+  .skills-box h3{ font-size: 18px; margin-bottom: 20px; }
+  .skill-row{ margin-bottom: 16px; }
+  .skill-row:last-child{ margin-bottom: 0; }
+  .skill-head{ display:flex; justify-content:space-between; font-size: 13.5px; margin-bottom: 6px; }
+  .skill-head span:first-child{ font-weight: 600; }
+  .skill-head span:last-child{ color: var(--ink-soft); font-family:'IBM Plex Mono', monospace; font-size: 12px; }
+  .bar-track{ height: 6px; background: var(--bg-alt); border-radius: 3px; overflow: hidden; }
+  .bar-fill{ height: 100%; background: var(--accent); border-radius: 3px; }
+
+  .lang-row{ display:flex; justify-content:space-between; font-size:14px; padding: 8px 0; border-top: 1px solid var(--line); }
+  .lang-row:first-child{ border-top:none; }
+
+  /* ---------- education & experience timeline ---------- */
+
+  .timeline{ position: relative; padding-left: 28px; }
+  .timeline::before{
+    content:"";
+    position:absolute; left:5px; top:6px; bottom:6px;
+    width: 1px; background: var(--line);
+  }
+  .t-item{ position: relative; padding-bottom: 40px; }
+  .t-item:last-child{ padding-bottom: 0; }
+  .t-item::before{
+    content:"";
+    position:absolute; left:-28px; top:5px;
+    width: 11px; height: 11px; border-radius: 50%;
+    background: var(--bg); border: 2px solid var(--accent);
+  }
+  .t-date{ font-family:'IBM Plex Mono', monospace; font-size: 12px; color: var(--accent-deep); margin-bottom: 6px; }
+  .t-role{ font-size: 18px; font-weight: 600; font-family:'Fraunces', serif; }
+  .t-org{ font-size: 14.5px; color: var(--ink-soft); margin-top: 2px; margin-bottom: 10px; }
+  .t-desc{ font-size: 14.5px; color: var(--ink-soft); max-width: 62ch; }
+  .t-desc ul{ margin: 8px 0 0; padding-left: 18px; }
+  .t-desc li + li{ margin-top: 4px; }
+
+  /* ---------- projects ---------- */
+
+  .project-card{
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .project-head{
+    padding: 40px 40px 32px;
+    background: linear-gradient(180deg, var(--accent-tint), transparent);
+    border-bottom: 1px solid var(--line);
+  }
+  .project-head h3{ font-size: 28px; }
+  .project-head p{ margin-top: 12px; color: var(--ink-soft); max-width: 62ch; font-size: 15.5px; }
+
+  .project-meta{ display:flex; gap: 24px; flex-wrap: wrap; margin-top: 22px; }
+  .meta-chip{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--accent-deep);
+    background: #fff;
+    border: 1px solid var(--line);
+    padding: 5px 10px;
+    border-radius: 20px;
+  }
+
+  .project-body{ padding: 32px 40px 40px; }
+  .stage-grid{
+    display:grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .stage{
+    background: #fff;
+    padding: 20px 18px;
+  }
+  .stage .num{ font-family:'IBM Plex Mono', monospace; font-size:11px; color: var(--ink-soft); }
+  .stage h4{ font-family:'Inter'; font-size: 14.5px; font-weight:600; margin-top:8px; }
+  .stage p{ font-size: 13px; color: var(--ink-soft); margin-top: 6px; line-height: 1.5; }
+  .stage.done{ box-shadow: inset 3px 0 0 var(--accent); }
+  .stage.pending{ opacity: .55; }
+
+  .insight-row{ margin-top: 32px; display:grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+  .insight{ border-left: 2px solid var(--accent); padding-left: 16px; }
+  .insight .big{ font-family:'Fraunces', serif; font-size: 26px; color: var(--ink); }
+  .insight .cap{ font-size: 13px; color: var(--ink-soft); margin-top: 4px; }
+
+  .project-links{ margin-top: 32px; display:flex; gap:14px; flex-wrap: wrap;}
+
+  /* ---------- contact ---------- */
+
+  #contact{ border-bottom: none; }
+  .contact-card{
+    background: var(--ink);
+    color: #fff;
+    border-radius: 10px;
+    padding: 56px;
+    display:flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 32px;
+  }
+  .contact-card h2{ color:#fff; font-size: 34px; max-width: 14ch; }
+  .contact-links{ display:flex; flex-direction:column; gap: 12px; }
+  .contact-links a{ font-size: 15px; color: #D8D5CC; display:flex; align-items:center; gap:10px; }
+  .contact-links a:hover{ color: #fff; }
+  .contact-links .k{ font-family:'IBM Plex Mono', monospace; font-size: 11px; color: #8B9490; width: 60px; }
+
+  footer{ text-align:center; padding: 32px 0 8px; font-size: 12.5px; color: var(--ink-soft); }
+
+  /* ---------- responsive ---------- */
+
+  @media (max-width: 880px){
+    .shell{ grid-template-columns: 1fr; }
+    nav.rail{ position: relative; height:auto; padding: 24px; flex-direction: row; align-items:center; justify-content: space-between; border-bottom: 1px solid var(--line); }
+    .rail-top .role{ display:none; }
+    .rail-links{ flex-direction: row; margin-top:0; gap: 18px; overflow-x:auto; }
+    .rail-bottom{ display:none; }
+    main{ padding: 40px 20px 80px; border-left: none; }
+    section{ padding: 56px 0; }
+    .hero-grid{ grid-template-columns: 1fr; }
+    .hero-photo{ max-width: 240px; }
+    .hero-stats{ grid-template-columns: 1fr 1fr; }
+    .about-layout{ grid-template-columns: 1fr; }
+    .stage-grid{ grid-template-columns: 1fr 1fr; }
+    .insight-row{ grid-template-columns: 1fr; }
+    .contact-card{ padding: 32px; }
+    .contact-card h2{ font-size: 26px; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior: auto; }
+  }
+</style>
+</head>
+<body>
+
+<div class="shell">
+
+  <nav class="rail">
+    <div class="rail-top">
+      <div class="mark">António Faria</div>
+      <div class="role">Finance · Strategy · Data</div>
+      <div class="rail-links">
+        <a href="#hero" class="nav-link active">Início</a>
+        <a href="#sobre" class="nav-link">Sobre</a>
+        <a href="#formacao" class="nav-link">Formação</a>
+        <a href="#experiencia" class="nav-link">Experiência</a>
+        <a href="#projeto" class="nav-link">Projeto técnico</a>
+        <a href="#contacto" class="nav-link">Contacto</a>
+      </div>
+    </div>
+    <div class="rail-bottom">
+      <a href="mailto:antonio.faria27@gmail.com">antonio.faria27@gmail.com</a>
+      <a href="https://www.linkedin.com/in/antoniofaria5/" target="_blank">linkedin.com/in/antoniofaria5</a>
+      <span>Guimarães, Portugal</span>
+    </div>
+  </nav>
+
+  <main>
+
+    <section id="hero">
+      <div class="hero-grid">
+        <div>
+          <h1 class="hero-name">Economia,<br>finanças e uma<br>curiosidade por dados.</h1>
+          <p class="hero-tagline">
+            Sou <strong>António Faria</strong>, profissional de Economia e Finanças com passagem por
+            Auditoria na Deloitte e gestão operacional numa empresa de padel em rápido crescimento.
+            Atualmente a aprofundar competências em análise de dados — Excel, SQL e Power BI — aplicadas
+            a problemas reais de negócio.
+          </p>
+          <div class="hero-cta">
+            <a href="#projeto" class="btn primary">Ver projeto técnico</a>
+            <a href="/cv-antonio-faria.pdf" class="btn ghost">Descarregar CV</a>
+          </div>
+        </div>
+        <div class="hero-photo">
+          <img src="foto.jpg" alt="António Faria" onerror="this.style.display='none'; this.parentElement.style.background='var(--bg-alt)';">
+          <span class="tag">Guimarães, PT</span>
+        </div>
+      </div>
+
+      <div class="hero-stats">
+        <div>
+          <div class="stat-num">15</div>
+          <div class="stat-label">pessoas lideradas em operações diárias</div>
+        </div>
+        <div>
+          <div class="stat-num">149K</div>
+          <div class="stat-label">transações analisadas no projeto de dados</div>
+        </div>
+        <div>
+          <div class="stat-num">C1</div>
+          <div class="stat-label">inglês, nativo em português</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="sobre">
+      <div class="eyebrow">Sobre mim</div>
+      <div class="about-layout">
+        <div class="about-text">
+          <p>
+            Formado em Economia pela Escola de Economia e Gestão da Universidade do Minho, estou
+            atualmente a concluir o Mestrado em Finanças na mesma instituição. O meu percurso
+            profissional começou na auditoria — na Deloitte Portugal — onde trabalhei com grandes
+            volumes de dados financeiros para sustentar conclusões de auditoria e garantir
+            conformidade regulatória.
+          </p>
+          <p>
+            Atualmente sou Operations Manager na Warrior Padel Arena, onde giro o dia a dia de um
+            negócio em crescimento: orçamentação, gestão de fornecedores, planeamento de recursos e
+            uma equipa de 15 pessoas. É um papel que me obriga a monitorizar KPIs operacionais
+            constantemente — e foi isso que me levou a querer aprofundar as minhas competências
+            técnicas em análise de dados, para tomar decisões mais sustentadas e comunicá-las melhor.
+          </p>
+          <p>
+            Fora do trabalho, o desporto sempre teve um papel central: fui atleta competitivo de
+            ténis e polo aquático, e hoje sou treinador de padel e jogador ativo (categoria M2).
+          </p>
+
+          <div class="other-activities">
+            <h4>Voluntariado e associativismo</h4>
+            <ul>
+              <li>Voluntariado internacional com a AIESEC, no âmbito dos Objetivos de Desenvolvimento Sustentável 13 e 10 das Nações Unidas (2021–2022)</li>
+              <li>Membro da ACE — Associação de Estudantes de Economia (2021–2024)</li>
+              <li>Campeão nacional (2ª Divisão) como Team Manager de polo aquático</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="skills-box">
+          <h3>Competências técnicas</h3>
+          <div class="skill-row">
+            <div class="skill-head"><span>Excel</span><span>avançado</span></div>
+            <div class="bar-track"><div class="bar-fill" style="width:90%"></div></div>
+          </div>
+          <div class="skill-row">
+            <div class="skill-head"><span>Power BI</span><span>intermédio</span></div>
+            <div class="bar-track"><div class="bar-fill" style="width:60%"></div></div>
+          </div>
+          <div class="skill-row">
+            <div class="skill-head"><span>SQL</span><span>intermédio</span></div>
+            <div class="bar-track"><div class="bar-fill" style="width:60%"></div></div>
+          </div>
+          <div class="skill-row">
+            <div class="skill-head"><span>Stata</span><span>básico-intermédio</span></div>
+            <div class="bar-track"><div class="bar-fill" style="width:45%"></div></div>
+          </div>
+          <div class="skill-row">
+            <div class="skill-head"><span>R</span><span>básico</span></div>
+            <div class="bar-track"><div class="bar-fill" style="width:35%"></div></div>
+          </div>
+          <div class="skill-row">
+            <div class="skill-head"><span>SAP</span><span>básico</span></div>
+            <div class="bar-track"><div class="bar-fill" style="width:30%"></div></div>
+          </div>
+
+          <h3 style="margin-top:28px;">Idiomas</h3>
+          <div class="lang-row"><span>Português</span><span>Nativo</span></div>
+          <div class="lang-row"><span>Inglês</span><span>C1</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="formacao">
+      <div class="eyebrow">Formação</div>
+      <div class="timeline">
+        <div class="t-item">
+          <div class="t-date">Set 2023 — Jun 2026</div>
+          <div class="t-role">Mestrado em Finanças</div>
+          <div class="t-org">Escola de Economia e Gestão, Universidade do Minho</div>
+        </div>
+        <div class="t-item">
+          <div class="t-date">Nov 2019 — Jun 2023</div>
+          <div class="t-role">Licenciatura em Economia</div>
+          <div class="t-org">Escola de Economia e Gestão, Universidade do Minho</div>
+        </div>
+        <div class="t-item">
+          <div class="t-date">2021 — 2023</div>
+          <div class="t-role">Formação complementar</div>
+          <div class="t-org">
+            <div class="t-desc">
+              <ul>
+                <li>Programa EEG Generating Skills — competências transversais (Fev 2023)</li>
+                <li>Formação em Power BI, 12 horas — Ace Junior Agency (Fev 2023)</li>
+                <li>Excel for Business — Macquarie University, via Coursera (Ago 2021)</li>
+                <li>Diversos cursos em R, Stata e Excel</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="experiencia">
+      <div class="eyebrow">Experiência profissional</div>
+      <div class="timeline">
+        <div class="t-item">
+          <div class="t-date">Set 2025 — Presente</div>
+          <div class="t-role">Operations Manager</div>
+          <div class="t-org">Warrior Padel Arena</div>
+          <div class="t-desc">
+            <ul>
+              <li>Gestão diária das operações do negócio: orçamentação, fornecedores, planeamento de recursos e coordenação operacional</li>
+              <li>Liderança de equipa de 15 pessoas — recrutamento, escalas e avaliação de desempenho</li>
+              <li>Coordenação de torneios, marcação de campos e experiência do cliente</li>
+              <li>Monitorização de KPIs operacionais e análise de desempenho para apoiar decisões orientadas por dados</li>
+            </ul>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-date">Set 2024 — Jun 2025</div>
+          <div class="t-role">Audit and Assurance</div>
+          <div class="t-org">Deloitte Portugal</div>
+          <div class="t-desc">
+            <ul>
+              <li>Execução de procedimentos de auditoria para clientes de múltiplas indústrias</li>
+              <li>Análise de demonstrações financeiras e avaliação de riscos financeiros e operacionais</li>
+              <li>Trabalho com grandes conjuntos de dados financeiros para sustentar conclusões de auditoria e conformidade regulatória</li>
+            </ul>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-date">Ago 2022 — Presente</div>
+          <div class="t-role">Padel Coach</div>
+          <div class="t-org">Atividade paralela</div>
+        </div>
+        <div class="t-item">
+          <div class="t-date">Jul — Ago 2023</div>
+          <div class="t-role">Estágio de Verão, Área de Contabilidade</div>
+          <div class="t-org">CARI Construtores S.A.</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="projeto">
+      <div class="eyebrow">Projeto técnico em destaque</div>
+      <div class="project-card">
+        <div class="project-head">
+          <h3>Coffee Shop Sales — análise de vendas ponta a ponta</h3>
+          <p>
+            Estudo de caso completo sobre um conjunto de dados de vendas de uma cadeia de
+            cafetarias com três localizações em Nova Iorque (Astoria, Hell's Kitchen e Lower
+            Manhattan), cobrindo cerca de 149 mil transações entre janeiro e junho de 2023.
+            O objetivo: replicar um fluxo de trabalho real de análise de negócio, do tratamento
+            de dados brutos até recomendações acionáveis.
+          </p>
+          <div class="project-meta">
+            <span class="meta-chip">Excel</span>
+            <span class="meta-chip">SQL</span>
+            <span class="meta-chip">Power BI</span>
+            <span class="meta-chip">149.000 transações</span>
+            <span class="meta-chip">3 localizações</span>
+          </div>
+        </div>
+
+        <div class="project-body">
+          <div class="stage-grid">
+            <div class="stage done">
+              <div class="num">01</div>
+              <h4>Seleção do dataset</h4>
+              <p>Escolha e validação inicial dos dados de vendas de cafetaria.</p>
+            </div>
+            <div class="stage done">
+              <div class="num">02</div>
+              <h4>Limpeza em Excel</h4>
+              <p>Tratamento de inconsistências e preparação da tabela de transações.</p>
+            </div>
+            <div class="stage done">
+              <div class="num">03</div>
+              <h4>Pivots & gráficos</h4>
+              <p>Tabelas dinâmicas e visualizações para explorar padrões de venda.</p>
+            </div>
+            <div class="stage">
+              <div class="num">04</div>
+              <h4>Análise de negócio</h4>
+              <p>Interpretação dos resultados e primeiros insights de negócio.</p>
+            </div>
+            <div class="stage pending">
+              <div class="num">05</div>
+              <h4>Replicação em SQL</h4>
+              <p>Reconstrução da análise com queries para validar e escalar o processo.</p>
+            </div>
+            <div class="stage pending">
+              <div class="num">06</div>
+              <h4>Dashboard Power BI</h4>
+              <p>Painel interativo para exploração visual dos indicadores-chave.</p>
+            </div>
+            <div class="stage pending">
+              <div class="num">07</div>
+              <h4>Sumário executivo</h4>
+              <p>Síntese dos resultados e recomendações para o negócio.</p>
+            </div>
+            <div class="stage pending">
+              <div class="num">08</div>
+              <h4>Apresentação</h4>
+              <p>Este próprio case study, preparado para portfolio.</p>
+            </div>
+          </div>
+
+          <div class="insight-row">
+            <div class="insight">
+              <div class="big">↑</div>
+              <div class="cap">Crescimento consistente da receita ao longo do período analisado</div>
+            </div>
+            <div class="insight">
+              <div class="big">Top SKUs</div>
+              <div class="cap">Um pequeno grupo de produtos concentra grande parte da receita</div>
+            </div>
+            <div class="insight">
+              <div class="big">3 lojas</div>
+              <div class="cap">Padrões de venda distintos entre Astoria, Hell's Kitchen e Lower Manhattan</div>
+            </div>
+          </div>
+
+          <div class="project-links">
+            <a href="#" class="btn primary">Ver repositório no GitHub</a>
+            <a href="#" class="btn ghost">Abrir dashboard Power BI</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contacto">
+      <div class="eyebrow">Contacto</div>
+      <div class="contact-card">
+        <h2>Vamos conversar sobre uma oportunidade.</h2>
+        <div class="contact-links">
+          <a href="mailto:antonio.faria27@gmail.com"><span class="k">EMAIL</span> antonio.faria27@gmail.com</a>
+          <a href="tel:+351912985274"><span class="k">TELEF.</span> +351 912 985 274</a>
+          <a href="https://www.linkedin.com/in/antoniofaria5/" target="_blank"><span class="k">LINKEDIN</span> /antoniofaria5</a>
+          <a href="#"><span class="k">LOCAL</span> Guimarães, Braga, Portugal</a>
+        </div>
+      </div>
+    </section>
+
+    <footer>© 2026 António Faria. Construído como parte de um projeto de portfolio em Data Analytics.</footer>
+
+  </main>
+</div>
+
+<script>
+  // Active nav link on scroll
+  const sections = document.querySelectorAll('section[id]');
+  const links = document.querySelectorAll('.nav-link');
+
+  function onScroll(){
+    let current = sections[0].id;
+    const scrollPos = window.scrollY + 140;
+    sections.forEach(sec => {
+      if (scrollPos >= sec.offsetTop) current = sec.id;
+    });
+    links.forEach(l => {
+      l.classList.toggle('active', l.getAttribute('href') === '#' + current);
+    });
+  }
+  document.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+</script>
+
+</body>
+</html>
